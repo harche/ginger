@@ -22,6 +22,7 @@ import fs_utils
 from wok.exception import NotFoundError, OperationFailed
 from wok.exception import InvalidParameter, MissingParameter
 from wok.utils import wok_log
+from docker import Client
 
 
 class FileSystemsModel(object):
@@ -79,15 +80,17 @@ class FileSystemsModel(object):
             raise InvalidParameter("GINFS00017E")
 
     def get_list(self):
-        try:
-            fs_names = fs_utils._get_fs_names()
-
-        except OperationFailed as e:
-            wok_log.error("Fetching list of filesystems failed")
-            raise OperationFailed("GINFS00013E",
-                                  {'err': e})
-
-        return fs_names
+        cli = Client(base_url='unix://var/run/docker.sock')
+        return cli.containers(all=True)
+        # try:
+        #     fs_names = fs_utils._get_fs_names()
+        #
+        # except OperationFailed as e:
+        #     wok_log.error("Fetching list of filesystems failed")
+        #     raise OperationFailed("GINFS00013E",
+        #                           {'err': e})
+        #
+        # return fs_names
 
 
 class FileSystemModel(object):

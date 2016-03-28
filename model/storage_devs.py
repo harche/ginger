@@ -17,6 +17,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 import utils
+from docker import Client
 
 
 class StorageDevsModel(object):
@@ -25,5 +26,7 @@ class StorageDevsModel(object):
     """
 
     def get_list(self):
+        cli = Client(base_url='unix://var/run/docker.sock')
+        return cli.images()
 
-        return utils.get_final_list()
+        # return utils.get_final_list()

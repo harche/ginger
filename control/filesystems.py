@@ -17,7 +17,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
-from wok.control.base import Collection, Resource
+from wok.control.base import SimpleCollection, Resource
 from wok.control.utils import UrlSubNode
 
 
@@ -31,7 +31,7 @@ FILESYSTEM_REQUESTS = {
 
 
 @UrlSubNode('filesystems', True)
-class FileSystems(Collection):
+class FileSystems(SimpleCollection):
     """
     Collections representing the filesystems on the system
     """
@@ -39,7 +39,7 @@ class FileSystems(Collection):
         super(FileSystems, self).__init__(model)
         self.role_key = 'host'
         self.admin_methods = ['GET', 'POST', 'DELETE']
-        self.resource = FileSystem
+        # self.resource = FileSystem
         self.log_map = FILESYSTEMS_REQUESTS
 
 
