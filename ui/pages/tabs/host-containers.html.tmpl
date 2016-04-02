@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+Copyright IBM Corp, 2015
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+#unicode UTF-8
+#import gettext
+#silent t = gettext.translation($lang.domain, $lang.localedir, languages=$lang.lang)
+#silent _ = t.gettext
+#silent _t = t.gettext
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="plugins/ginger/css/ginger.css">
+<script type="text/javascript" src="plugins/ginger/js/util.js"></script>
+<script type="text/javascript" src="plugins/ginger/js/host-containers.js"></script>
+<script type="text/javascript" src="plugins/ginger/js/ginger-bootgrid.js"></script>
+</head>
+<body>
+  <div id="host-containers-root-container" class="ginger">
+      <nav class="navbar navbar-default toolbar">
+          <div class="container">
+              <div id="toolbar"></div>
+          </div>
+     </nav>
+    <div class="container">
+        <div id="gingerHostAdmin" class="host-admin">
+          <!--Container Images Panel -->
+          <div class="panel-group accordion" id="container-images-accordion" role="tablist" aria-multiselectable="true">
+              <h3>
+                  <a role="button" data-toggle="collapse" data-parent="#container-images-accordion" href="#container-images-content-area" aria-expanded="false" aria-controls="container-images-content-area" class="">
+                      <span class="accordion-icon"></span><span class="accordion-text">$_("Images")</span>
+                  </a>
+              </h3>
+              <div id="container-images-content-area" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                  <div class='fmw-content col-md-12'>
+                    <div class="row">
+                      <div id="container-images-refresh" class="pull-right">
+                      <div class="btn-group"><button class="btn btn-primary" id="container-images-refresh-btn" aria-expanded="false"><i class="fa fa-refresh"></i> Refresh</button></div></div>
+                  </div>
+                    <div class="row" id="container-images" style="padding-left:20px;"></div>
+                  </div>
+              </div>
+              <hr>
+          </div>
+          <!-- Containers Instances Panel -->
+          <div class="panel-group accordion" id="container-instances-accordion" role="tablist" aria-multiselectable="true">
+              <h3>
+                  <a role="button" data-toggle="collapse" data-parent="#container-instances-accordion" href="#container-instances-content-area" aria-expanded="false" aria-controls="container-instances-content-area" class="">
+                      <span class="accordion-icon"></span><span class="accordion-text">$_("Instances")</span>
+                  </a>
+              </h3>
+              <div id="container-instances-content-area" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                  <div class='fmw-content col-md-12'>
+                    <div class="row">
+                      <div id="container-instances-refresh" class="pull-right">
+                      <div class="btn-group"><button class="btn btn-primary" id="container-instances-refresh-btn" aria-expanded="false"><i class="fa fa-refresh"></i> Refresh</button></div></div>
+                  </div>
+                    <div class="row" id="container-instances" style="padding-left:20px;">
+                    </div>
+                  </div>
+              </div>
+              <hr>
+          </div>
+        </div>
+    </div>
+    <div id="modalWindow" class="modal fade host-modal guests-modal" tabindex="-1" role="dialog" aria-labelledby="guestsModalLabel" aria-hidden="true">
+    </div>
+    <div class="modal" id="storage-AddFCP-modal"> <!-- This div is required for multiple popups handling -->
+      <div class="modal-dialog"  style="width:1068px;">
+      <div class="modal-content">Loading...</div>
+      </div>
+    </div>
+  </div>
+<script>
+    ginger.initContainers();
+</script>
+</body>
+</html>
