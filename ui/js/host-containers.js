@@ -20,34 +20,36 @@ ginger.initContainers = function() {
   $(".content-area", "#storage-section").css("height", "100%");
   ginger.loadImagesDetails();
   ginger.loadInstancesDetails();
+  ginger.loadNetworksDetails();
+  ginger.loadVolumesDetails();
 };
 
 ginger.createMoreList = function(settings) {
-  var toolbarNode = null;                                                  
+  var toolbarNode = null;
   var btnHTML, dropHTML = [];
-  var container = settings.panelID;                                        
-  var toolbarButtons = settings.buttons;                                   
+  var container = settings.panelID;
+  var toolbarButtons = settings.buttons;
   var buttonType = settings.type;
-  toolbarNode = $('<div class="btn-group"></div>');                        
-  toolbarNode.appendTo($("#" + container));                                
-  dropHTML = ['<div class="dropdown menu-flat">',                          
+  toolbarNode = $('<div class="btn-group"></div>');
+  toolbarNode.appendTo($("#" + container));
+  dropHTML = ['<div class="dropdown menu-flat">',
     '<button id="action-dropdown-button-', container, '" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">', (buttonType === 'action') ? '<span class="edit-alt"></span>Actions' : buttonType, '<span class="caret"></span>',
     '</button>',
     '<ul class="dropdown-menu"></ul>',
     '</div>'
-  ].join('');                                                              
-  $(dropHTML).appendTo(toolbarNode);                                       
-      
-  $.each(toolbarButtons, function(i, button) {                             
-    var btnHTML = [                                                        
+  ].join('');
+  $(dropHTML).appendTo(toolbarNode);
+
+  $.each(toolbarButtons, function(i, button) {
+    var btnHTML = [
       '<li role="presentation"', button.critical === true ? ' class="critical"' : '', '>',
       '<a role="menuitem" tabindex="-1" data-backdrop="static"  data-keyboard="false" data-dismiss="modal"', (button.id ? (' id="' + button.id + '"') : ''), (button.disabled === true ? ' class="disabled"' : ''),
-      '>',                                                                 
-      button.class ? ('<i class="' + button.class) + '"></i>' : '',        
+      '>',
+      button.class ? ('<i class="' + button.class) + '"></i>' : '',
       button.label,
-      '</a></li>'                                                          
+      '</a></li>'
     ].join('');
-    var btnNode = $(btnHTML).appendTo($('.dropdown-menu', toolbarNode));   
+    var btnNode = $(btnHTML).appendTo($('.dropdown-menu', toolbarNode));
     button.onClick && btnNode.on('click', button.onClick);
   });
 }
@@ -300,6 +302,91 @@ ginger.initInstancesGridData = function() {
       // convert list to string
       result[i]['Names'] = result[i]['Names'].toString();
     }
+    ginger.loadBootgridData(opts['gridId'], result);
+    ginger.showBootgridData(opts);
+    ginger.hideBootgridLoading(opts);
+  });
+};
+
+
+// ******************** Container Networks ********************
+
+ginger.loadNetworksDetails = function() {
+  var gridFields = [];
+  var opts = [];
+  opts['id'] = 'container-networks';
+  opts['gridId'] = "networksGrid";
+
+  gridFields = [{
+    "column-id": 'Name',
+    "type": 'string',
+    "width": "15%",
+    "title": 'Name',
+    "identifier": true
+  }, {
+    "title": 'Driver',
+    "column-id": 'Driver',
+    "width": "80%",
+    "type": 'string'
+  }];
+  opts['gridFields'] = JSON.stringify(gridFields);
+  ginger.createBootgrid(opts);
+  ginger.initNetworksGridData();
+
+  $('#container-networks-refresh-btn').on('click', function(event) {
+    ginger.hideBootgridData(opts);
+    ginger.showBootgridLoading(opts);
+    ginger.initNetworksGridData();
+  });
+
+};
+
+ginger.initNetworksGridData = function() {
+  var opts = [];
+  opts['gridId'] = "networksGrid";
+  ginger.getSANAdapters(function(result) {
+    ginger.loadBootgridData(opts['gridId'], result);
+    ginger.showBootgridData(opts);
+    ginger.hideBootgridLoading(opts);
+  });
+};
+
+
+// ******************** Container Volumes ********************
+
+ginger.loadVolumesDetails = function() {
+  var gridFields = [];
+  var opts = [];
+  opts['id'] = 'container-volumes';
+  opts['gridId'] = "volumesGrid";
+
+  gridFields = [{
+    "column-id": 'Name',
+    "type": 'string',
+    "width": "15%",
+    "title": 'Name',
+    "identifier": true
+  }, {
+    "title": 'Driver',
+    "column-id": 'Driver',
+    "width": "80%",
+    "type": 'string'
+  }];
+  opts['gridFields'] = JSON.stringify(gridFields);
+  ginger.createBootgrid(opts);
+  ginger.initVolumesGridData();
+
+  $('#container-volumes-refresh-btn').on('click', function(event) {
+    ginger.hideBootgridData(opts);
+    ginger.showBootgridLoading(opts);
+    ginger.initVolumesGridData();
+  });
+};
+
+ginger.initVolumesGridData = function() {
+  var opts = [];
+  opts['gridId'] = "volumesGrid";
+  ginger.getVolumegroups(function(result) {
     ginger.loadBootgridData(opts['gridId'], result);
     ginger.showBootgridData(opts);
     ginger.hideBootgridLoading(opts);

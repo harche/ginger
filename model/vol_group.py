@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 import utils
+from docker import Client
 
 from wok.exception import OperationFailed,\
     MissingParameter, NotFoundError
@@ -70,14 +71,19 @@ class VolumeGroupsModel(object):
 
     def get_list(self):
 
-        try:
-            vg_names = utils._get_vg_list()
-        except OperationFailed as e:
-            wok_log.error('failed to list VGs')
-            raise NotFoundError("GINVG00002E",
-                                {'err': e.message})
-
-        return vg_names
+        # try:
+        #     vg_names = utils._get_vg_list()
+        # except OperationFailed as e:
+        #     wok_log.error('failed to list VGs')
+        #     raise NotFoundError("GINVG00002E",
+        #                         {'err': e.message})
+        #
+        # return vg_names
+        cli = Client(base_url='unix://var/run/docker.sock')
+        if cli.volumes().get('Volumes'):
+            return cli.volumes().get('Volumes')
+        else:
+            return []
 
 
 class VolumeGroupModel(object):

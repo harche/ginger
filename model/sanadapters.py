@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 import os
+from docker import Client
 
 
 from wok.exception import NotFoundError
@@ -37,10 +38,12 @@ FC_HOST_INFOS = {'wwpn': '/port_name',
 class SanAdaptersModel(object):
 
     def get_list(self):
-        try:
-            return os.listdir(FC_HOST_SYS_PATH % '')
-        except:
-            return []
+        # try:
+        #     return os.listdir(FC_HOST_SYS_PATH % '')
+        # except:
+        #     return []
+        cli = Client(base_url='unix://var/run/docker.sock')
+        return cli.networks()
 
 
 class SanAdapterModel(object):
