@@ -308,6 +308,36 @@ ginger.initInstancesGridData = function() {
   });
 };
 
+ginger.loadCreateButton = function() {
+      var actionButtonHtml = '<div class="btn-group">' +
+        '<button class="btn btn-primary" id="create-button" aria-expanded="false"><i class="fa fa-plus-circle"></i> '+ 'Create' + '</button>' +
+        '</div>';
+      $(actionButtonHtml).appendTo('#more-network-actions');
+      $('#create-button').on('click', function() {});
+}
+
+ginger.loadNetworkActionButtons = function() {
+  var actionButton = [{
+     id:'sd-connect-image-button',
+     label: 'Connect',
+     onClick: function(event) {
+     }},
+     {
+     id:'sd-disconnect-image-button',
+     label: 'Disconnect',
+     onClick: function(event){}},
+     {
+     id:'sd-remove-image-button',
+     label: 'Remove',
+     onClick: function(event){}}];
+
+  var actionListSettings = {
+    panelID: 'network-actions',
+    buttons: actionButton,
+    type: 'action'
+  };
+  ginger.createActionList(actionListSettings);
+};
 
 // ******************** Container Networks ********************
 
@@ -317,6 +347,8 @@ ginger.loadNetworksDetails = function() {
   opts['id'] = 'container-networks';
   opts['gridId'] = "networksGrid";
 
+  ginger.loadNetworkActionButtons();
+  ginger.loadCreateButton();
   gridFields = [{
     "column-id": 'Name',
     "type": 'string',
@@ -351,6 +383,28 @@ ginger.initNetworksGridData = function() {
   });
 };
 
+ginger.loadVolCreateButton = function() {
+      var actionButtonHtml = '<div class="btn-group">' +
+        '<button class="btn btn-primary" id="create-vol-button" aria-expanded="false"><i class="fa fa-plus-circle"></i> '+ 'Create' + '</button>' +
+        '</div>';
+      $(actionButtonHtml).appendTo('#more-volume-actions');
+      $('#create-vol-button').on('click', function() {});
+}
+
+ginger.loadVolumeActionButtons = function() {
+  var actionButton = [     
+     {
+     id:'sd-remove-image-button',
+     label: 'Remove',
+     onClick: function(event){}}];
+
+  var actionListSettings = {
+    panelID: 'volume-actions',
+    buttons: actionButton,
+    type: 'action'
+  };
+  ginger.createActionList(actionListSettings);
+};
 
 // ******************** Container Volumes ********************
 
@@ -360,6 +414,8 @@ ginger.loadVolumesDetails = function() {
   opts['id'] = 'container-volumes';
   opts['gridId'] = "volumesGrid";
 
+  ginger.loadVolCreateButton();
+  ginger.loadVolumeActionButtons();
   gridFields = [{
     "column-id": 'Name',
     "type": 'string',
